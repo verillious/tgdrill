@@ -74,7 +74,6 @@ func play_sound(sound_name: String) -> void:
 	var sound = load("res://sounds/" + sound_name + ".mp3")
 	audio_stream_player.stream = sound
 	audio_stream_player.play()
-	print(sound_name)
 
 
 func choice(choices: Array) -> String:

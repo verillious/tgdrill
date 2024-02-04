@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/no_threat.mp3-a24771cc57e9c47c16edcf6cde139200.mp3str"
+
+[deps]
+
+source_file="res://sounds/no_threat.mp3"
+dest_files=[ "res://.import/no_threat.mp3-a24771cc57e9c47c16edcf6cde139200.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

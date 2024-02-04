@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/threat_left.mp3-94a451a0d1343111c6b28ef54e7338e9.mp3str"
+
+[deps]
+
+source_file="res://sounds/threat_left.mp3"
+dest_files=[ "res://.import/threat_left.mp3-94a451a0d1343111c6b28ef54e7338e9.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
