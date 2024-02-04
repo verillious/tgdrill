@@ -1,30 +1,81 @@
 extends Control
 
-var _delta_index := 0.0
-var _speed := 1.0
 
-onready var label = find_node("Label")
-onready var font = label.get_font("font")
+onready var label : Label = find_node("Label")
+onready var no_threat_button : CheckButton = find_node("CheckButtonNoThreat")
+onready var left_right_button : CheckButton = find_node("CheckButtonLeftRight")
+onready var start_button : Button = find_node("ButtonStart")
+onready var scroll_container : ScrollContainer = find_node("ScrollContainer")
+
+
+var _no_threat := true
+var _left_right := false
+var _running := false
+
+var _active_threat := false
+var _threat_time := 0.0
+var _current_time := 0.0
+
+var audio_stream_player : AudioStreamPlayer
+var random : RandomNumberGenerator
+
 
 
 func _ready() -> void:
-	$ScrollContainer.get_v_scrollbar().modulate = Color.transparent
-	$ScrollContainer.get_v_scrollbar().rect_scale = Vector2.ZERO
+	audio_stream_player = AudioStreamPlayer.new()
+	random = RandomNumberGenerator.new()
+	add_child(audio_stream_player)
+
+
+func _on_CheckButtonNoThreat_toggled(button_pressed: bool) -> void:
+	_no_threat = button_pressed
+
+
+func _on_CheckButtonLeftRight_toggled(button_pressed: bool) -> void:
+	_left_right = button_pressed
+
+
+func _on_ButtonStart_pressed() -> void:
+	_running = !_running
+	start_button.text = "STOP" if _running else "START"
+	_threat_time = random.randf_range(1.0, 3.0)
 
 
 func _process(_delta: float) -> void:
-	var datetime = DateTime.now()
-	var text = (
-		"it is the %s day\nof the year of our lord %s\nbeing the %s day of %s\n%s %s past the hour of %s"
-		% [
-			NumberToWords.to_ordinal(datetime.julian),
-			NumberToWords.to_year(datetime.year),
-			NumberToWords.to_ordinal(datetime.day),
-			datetime.month_name,
-			NumberToWords.to_words(datetime.minute),
-			"minute" if datetime.minute == 1 else "minutes",
-			NumberToWords.to_words(int(datetime.strftime("%I")))
-		]
-	)
-	label.text = text
-	font.size = 32 if get_viewport().size.x < 600 else 48 if get_viewport().size.x < 1000 else 64
+	
+	if not _running:
+		return
+
+	_current_time += _delta
+	_check_sound()
+
+
+func _check_sound() -> void:
+	if _current_time > _threat_time:
+		if not _active_threat:
+			if _left_right:
+				var target = choice(["left", "right", "front"])
+				play_sound("threat_" + target)
+			else:
+				play_sound("threat")
+			_active_threat = true
+			_threat_time = random.randf_range(1.0, 5.0)
+		else:
+			if not _no_threat or randf() > 0.5:
+				play_sound("gun")
+			else:
+				play_sound("no_threat")
+			_active_threat = false
+			_threat_time = random.randf_range(2.0, 6.0)
+		_current_time = 0.0
+
+
+func play_sound(sound_name: String) -> void:
+	var sound = load("res://sounds/" + sound_name + ".mp3")
+	audio_stream_player.stream = sound
+	audio_stream_player.play()
+	print(sound_name)
+
+
+func choice(choices: Array) -> String:
+	return choices[randi() % choices.size()]

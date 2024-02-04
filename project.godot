@@ -8,34 +8,12 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Reference",
-"class": "DateTime",
-"language": "GDScript",
-"path": "res://addons/datetime/datetime.gd"
-}, {
-"base": "Reference",
-"class": "NumberToWords",
-"language": "GDScript",
-"path": "res://addons/number-to-words/number_to_words.gd"
-} ]
-_global_script_class_icons={
-"DateTime": "",
-"NumberToWords": ""
-}
-
 [application]
 
-config/name="year of our lord"
-config/description="example project for godot-datetime and godot-number-to-words"
+config/name="Threat Gun Drill"
 run/main_scene="res://scenes/level_main.tscn"
-config/icon="res://resources/feather-pen.png"
 config/version="0.1.0"
 config/default_clear_color=Color( 0.3, 0.3, 0.3, 1 )
-
-[autoload]
-
-PostProcessing="*res://autoload/post_processing/post_processing.tscn"
 
 [debug]
 
